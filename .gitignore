@@ -1,0 +1,32 @@
+# Dependency directories
+node_modules/
+jspm_packages/
+web_package/
+
+# Build outputs
+dist/
+build/
+out/
+.vercel/
+
+# Python caching & environments
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.env
+.env.local
+.env.*.local
+
+# Databases & local files
+*.sqlite
+*.sqlite3
+backend/instance/
+instance/
+.idea/
+.vscode/
+*.log
+.DS_Store
+Thumbs.db
