@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
+import HowItWorks from './pages/HowItWorks';
+import PrivacyProtocol from './pages/PrivacyProtocol';
 
 function App() {
   const [darkMode, setDarkMode] = useState(true);
@@ -35,6 +37,8 @@ function App() {
       <Layout darkMode={darkMode} toggleTheme={toggleTheme}>
         <Routes>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/privacy" element={<PrivacyProtocol />} />
         </Routes>
       </Layout>
     </Router>

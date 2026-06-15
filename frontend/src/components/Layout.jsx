@@ -1,5 +1,6 @@
 import React from 'react';
 import { Moon, Sun } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import ThreeLock from './ThreeLock';
 
 const Layout = ({ children, darkMode, toggleTheme }) => {
@@ -17,8 +18,8 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
           </span>
         </div>
         <div className="flex gap-4 md:gap-8 items-center font-label-md text-label-md">
-          <a className="hidden lg:inline text-primary-container border-b-2 border-primary-container pb-1 transition-colors hover:bg-surface-container-high" href="#how-it-works">How it Works</a>
-          <a className="hidden sm:inline text-on-surface-variant hover:text-primary-fixed-dim transition-colors hover:bg-surface-container-high hover:text-primary-container" href="#telemetry">Telemetry</a>
+          <Link className="hidden lg:inline text-primary-container border-b-2 border-primary-container pb-1 transition-colors hover:bg-surface-container-high" to="/how-it-works">How it Works</Link>
+          <Link className="hidden sm:inline text-on-surface-variant hover:text-primary-fixed-dim transition-colors hover:bg-surface-container-high hover:text-primary-container" to="/privacy">Privacy Protocol</Link>
           
           {/* Theme Toggle Button */}
           <button
@@ -29,7 +30,7 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
             {darkMode ? <Sun className="h-5 w-5 text-gold-warning animate-pulse" /> : <Moon className="h-5 w-5 text-primary-container" />}
           </button>
 
-          <button className="arcade-btn px-6 py-2 font-label-md text-on-primary font-bold ml-2">LOGIN</button>
+
         </div>
       </nav>
 
