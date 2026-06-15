@@ -7,3 +7,4 @@ gunicorn==22.0.0
 python-whois==0.9.4
 beautifulsoup4==4.12.3
 psycopg2-binary==2.9.9
+serverless-wsgi==3.0.0

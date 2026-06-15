@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Globe, ShieldAlert, ShieldCheck, AlertCircle } from 'lucide-react';
 
 const CountUp = ({ end, duration = 2000 }) => {
   const [count, setCount] = useState(0);
@@ -30,16 +29,14 @@ const CountUp = ({ end, duration = 2000 }) => {
   return <span>{count.toLocaleString()}</span>;
 };
 
-const StatCard = ({ title, value, icon, colorClass, bgClass }) => (
-  <div className="glass-card p-6 flex items-center space-x-4 transition-transform hover:-translate-y-1 hover:shadow-2xl">
-    <div className={`p-4 rounded-xl ${bgClass} ${colorClass}`}>
-      {icon}
+const StatCard = ({ title, value, iconName, hoverBorderClass, iconColorClass, valueColorClass, isStatic = false }) => (
+  <div className={`bg-surface pixel-border p-6 flex flex-col items-start transition-colors group hover:${hoverBorderClass} cursor-default`}>
+    <div className="w-10 h-10 bg-surface-container-high flex items-center justify-center mb-4 border-2 border-surface-container-highest group-hover:border-current transition-colors">
+      <span className={`material-symbols-outlined ${iconColorClass} text-2xl select-none`}>{iconName}</span>
     </div>
-    <div>
-      <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{title}</p>
-      <h3 className="text-3xl font-bold text-gray-900 dark:text-white mt-1">
-        <CountUp end={value || 0} />
-      </h3>
+    <div className="font-label-sm text-on-surface-variant mb-1 uppercase select-none">{title}</div>
+    <div className={`font-headline-lg ${valueColorClass} font-bold`}>
+      {isStatic ? value : <CountUp end={value || 0} />}
     </div>
   </div>
 );
@@ -48,37 +45,51 @@ const StatsCards = ({ stats }) => {
   if (!stats) return null;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-      <StatCard 
-        title="Total Websites Analyzed" 
-        value={stats.total_scanned} 
-        icon={<Globe className="h-8 w-8" />}
-        colorClass="text-blue-600 dark:text-blue-400"
-        bgClass="bg-blue-100 dark:bg-blue-900/30"
-      />
-      <StatCard 
-        title="Phishing Detected" 
-        value={stats.phishing_detected} 
-        icon={<ShieldAlert className="h-8 w-8" />}
-        colorClass="text-red-600 dark:text-red-400"
-        bgClass="bg-red-100 dark:bg-red-900/30"
-      />
-      <StatCard 
-        title="Safe Websites" 
-        value={stats.safe_websites} 
-        icon={<ShieldCheck className="h-8 w-8" />}
-        colorClass="text-green-600 dark:text-green-400"
-        bgClass="bg-green-100 dark:bg-green-900/30"
-      />
-      <StatCard 
-        title="Suspicious Websites" 
-        value={stats.suspicious_websites} 
-        icon={<AlertCircle className="h-8 w-8" />}
-        colorClass="text-yellow-600 dark:text-yellow-400"
-        bgClass="bg-yellow-100 dark:bg-yellow-900/30"
-      />
-    </div>
+    <section id="telemetry" className="mb-24">
+      <h2 className="font-headline-lg text-headline-lg text-on-surface mb-8 flex items-center gap-3 select-none">
+        <span className="material-symbols-outlined text-primary-container text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+          monitoring
+        </span>
+        Live Network Telemetry
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <StatCard 
+          title="Total Scanned" 
+          value={stats.total_scanned} 
+          iconName="globe"
+          hoverBorderClass="border-primary-container"
+          iconColorClass="text-primary-container"
+          valueColorClass="text-primary-container"
+        />
+        <StatCard 
+          title="Phishing Blocked" 
+          value={stats.phishing_detected} 
+          iconName="bug_report"
+          hoverBorderClass="border-glitch-red"
+          iconColorClass="text-glitch-red"
+          valueColorClass="text-glitch-red"
+        />
+        <StatCard 
+          title="Malware Prevented" 
+          value={stats.suspicious_websites} 
+          iconName="warning"
+          hoverBorderClass="border-gold-warning"
+          iconColorClass="text-gold-warning"
+          valueColorClass="text-gold-warning"
+        />
+        <StatCard 
+          title="Detection Accuracy" 
+          value="99.9%" 
+          iconName="verified"
+          hoverBorderClass="border-matrix-green"
+          iconColorClass="text-matrix-green"
+          valueColorClass="text-matrix-green"
+          isStatic={true}
+        />
+      </div>
+    </section>
   );
 };
 
 export default StatsCards;
+

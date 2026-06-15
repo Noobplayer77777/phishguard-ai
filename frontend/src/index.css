@@ -4,25 +4,136 @@
 
 @layer base {
   body {
-    @apply bg-gray-50 text-gray-900 transition-colors duration-200;
+    @apply transition-colors duration-200;
+    background-color: #0e1323;
+    color: #dee1f9;
+    font-family: 'JetBrains Mono', monospace;
   }
-  
-  .dark body {
-    @apply bg-cyber-900 text-gray-100;
-  }
+}
+
+/* Retro Pixel Art & Terminal Styling */
+.scanline-bg {
+    background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 2px,
+        rgba(0, 245, 255, 0.03) 2px,
+        rgba(0, 245, 255, 0.03) 4px
+    );
+    pointer-events: none;
+}
+
+.pixel-border {
+    border: 2px solid #2f3446;
+    box-shadow: 
+        -2px 0 0 0 #2f3446,
+        2px 0 0 0 #2f3446,
+        0 -2px 0 0 #2f3446,
+        0 2px 0 0 #2f3446;
+    margin: 2px;
+}
+
+.pixel-border-glow {
+    border: 2px solid #00f5ff;
+    box-shadow: 
+        -2px 0 0 0 #00f5ff,
+        2px 0 0 0 #00f5ff,
+        0 -2px 0 0 #00f5ff,
+        0 2px 0 0 #00f5ff,
+        0 0 10px rgba(0, 245, 255, 0.5);
+    margin: 2px;
+}
+
+.arcade-btn {
+    background-color: #00f5ff;
+    color: #002021;
+    border: 2px solid #00f5ff;
+    border-bottom-width: 6px;
+    transition: all 0.1s ease;
+    text-transform: uppercase;
+}
+
+.arcade-btn:active:not(:disabled) {
+    border-bottom-width: 2px;
+    transform: translateY(4px);
+}
+
+.arcade-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.arcade-btn-secondary {
+    background-color: transparent;
+    color: #00f5ff;
+    border: 2px solid #00f5ff;
+    border-bottom-width: 6px;
+    transition: all 0.1s ease;
+    text-transform: uppercase;
+}
+
+.arcade-btn-secondary:hover:not(:disabled) {
+    background-color: rgba(0, 245, 255, 0.1);
+}
+
+.arcade-btn-secondary:active:not(:disabled) {
+    border-bottom-width: 2px;
+    transform: translateY(4px);
+}
+
+.arcade-btn-secondary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.terminal-input {
+    background-color: #080d1d;
+    border: 2px solid #2f3446;
+    color: #00f5ff;
+}
+
+.terminal-input:focus {
+    outline: none;
+    border-color: #00f5ff;
+    box-shadow: 0 0 8px rgba(0, 245, 255, 0.3);
+}
+
+/* Custom Block Cursor */
+.cursor-block {
+    display: inline-block;
+    width: 10px;
+    height: 1.2em;
+    background-color: #00f5ff;
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+    margin-left: 4px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Floating Particles */
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background-color: #00f5ff;
+    box-shadow: 0 0 4px #00f5ff;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-white/80 dark:bg-cyber-800/80 backdrop-blur-md border border-gray-200 dark:border-cyber-700 shadow-xl rounded-2xl;
-  }
-  
-  .btn-primary {
-    @apply bg-cyber-blue hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors focus:ring-4 focus:ring-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed;
-  }
-  
-  .input-field {
-    @apply w-full bg-white dark:bg-cyber-900 border border-gray-300 dark:border-cyber-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyber-blue transition-colors text-gray-900 dark:text-gray-100;
+    @apply bg-surface/90 border-2 border-surface-container-highest shadow-[0_4px_0_0_rgba(47,52,70,1)] rounded-none;
+    margin: 2px;
   }
 }
 
@@ -37,9 +148,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 dark:bg-cyber-700 rounded-full;
+  @apply bg-surface-container-highest rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400 dark:bg-cyber-600;
+  @apply bg-surface-bright;
 }
+

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Download, Copy, Share2, Check } from 'lucide-react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -40,10 +39,6 @@ ${result.reasons.map(r => `- ${r.detector}: ${r.reason}`).join('\n')}
     try {
       const element = document.getElementById('results-card');
       if (element) {
-        // We use html2canvas to take a snapshot of the results card
-        // Note: in dark mode, taking screenshots of DOM elements can sometimes have background issues
-        // so we save the current theme class, force light mode if needed, take shot, and restore.
-        // For simplicity here, we just take it as is.
         const canvas = await html2canvas(element, { scale: 2, useCORS: true });
         const imgData = canvas.toDataURL('image/png');
         
@@ -85,39 +80,41 @@ ${result.reasons.map(r => `- ${r.detector}: ${r.reason}`).join('\n')}
   };
 
   return (
-    <div className="flex flex-wrap gap-3">
+    <div className="flex flex-wrap gap-4">
       <button 
         onClick={handleCopy}
-        className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-cyber-800 dark:text-gray-300 dark:border-cyber-600 dark:hover:bg-cyber-700 transition-colors"
+        className="arcade-btn-secondary px-4 py-2 font-label-sm text-xs flex items-center gap-2 select-none"
       >
-        {copied ? <Check className="w-4 h-4 mr-2 text-green-500" /> : <Copy className="w-4 h-4 mr-2" />}
-        {copied ? 'Copied' : 'Copy'}
+        <span className="material-symbols-outlined text-[18px]">
+          {copied ? 'check' : 'content_copy'}
+        </span>
+        {copied ? 'COPIED' : 'COPY'}
       </button>
       
       <button 
         onClick={handleDownloadJSON}
-        className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-cyber-800 dark:text-gray-300 dark:border-cyber-600 dark:hover:bg-cyber-700 transition-colors"
+        className="arcade-btn-secondary px-4 py-2 font-label-sm text-xs flex items-center gap-2 select-none"
       >
-        <Download className="w-4 h-4 mr-2" />
-        JSON Report
+        <span className="material-symbols-outlined text-[18px]">download</span>
+        EXPORT JSON
       </button>
       
       <button 
         onClick={handleExportPDF}
         disabled={downloading}
-        className={`flex items-center px-4 py-2 text-sm font-medium text-white bg-cyber-blue border border-transparent rounded-lg hover:bg-blue-600 transition-colors shadow-sm ${downloading ? 'opacity-70 cursor-wait' : ''}`}
+        className="arcade-btn px-4 py-2 font-label-sm text-xs flex items-center gap-2 select-none"
       >
-        <Download className="w-4 h-4 mr-2" />
-        {downloading ? 'Exporting...' : 'Export PDF'}
+        <span className="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+        {downloading ? 'EXPORTING...' : 'EXPORT PDF'}
       </button>
       
       {navigator.share && (
         <button 
           onClick={handleShare}
-          className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-cyber-800 dark:text-gray-300 dark:border-cyber-600 dark:hover:bg-cyber-700 transition-colors"
+          className="arcade-btn-secondary px-4 py-2 font-label-sm text-xs flex items-center gap-2 select-none"
         >
-          <Share2 className="w-4 h-4 mr-2" />
-          Share
+          <span className="material-symbols-outlined text-[18px]">share</span>
+          SHARE
         </button>
       )}
     </div>
@@ -125,3 +122,4 @@ ${result.reasons.map(r => `- ${r.detector}: ${r.reason}`).join('\n')}
 };
 
 export default ReportActions;
+

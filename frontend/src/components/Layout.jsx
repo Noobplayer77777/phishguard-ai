@@ -1,45 +1,58 @@
 import React from 'react';
-import { Shield, Moon, Sun } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
+import ThreeLock from './ThreeLock';
 
 const Layout = ({ children, darkMode, toggleTheme }) => {
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-50 bg-white/80 dark:bg-cyber-900/80 backdrop-blur-md border-b border-gray-200 dark:border-cyber-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <div className="bg-cyber-blue p-2 rounded-lg">
-                <Shield className="h-6 w-6 text-white" />
-              </div>
-              <span className="font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-cyber-blue to-purple-600">
-                PhishGuard AI
-              </span>
-            </div>
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-cyber-800 transition-colors"
-                aria-label="Toggle theme"
-              >
-                {darkMode ? <Sun className="h-5 w-5 text-yellow-400" /> : <Moon className="h-5 w-5 text-gray-600" />}
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen flex flex-col bg-background text-on-surface relative overflow-x-hidden font-body-md text-body-md">
+      {/* Global Scanline Overlay */}
+      <div className="fixed inset-0 scanline-bg z-50 pointer-events-none mix-blend-overlay"></div>
 
-      <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* TopNavBar */}
+      <nav className="fixed top-0 left-0 w-full z-40 flex justify-between items-center px-6 md:px-margin-desktop h-20 bg-surface/95 backdrop-blur-sm border-b-4 border-surface-container-highest shadow-[0_4px_0_0_rgba(47,52,70,1)]">
+        <div className="flex items-center gap-4">
+          <span className="material-symbols-outlined text-primary-container text-3xl select-none">shield</span>
+          <span className="font-headline-md text-headline-md font-bold text-primary-container tracking-tighter select-none">
+            PHISHGUARD_AI
+          </span>
+        </div>
+        <div className="flex gap-4 md:gap-8 items-center font-label-md text-label-md">
+          <a className="hidden lg:inline text-primary-container border-b-2 border-primary-container pb-1 transition-colors hover:bg-surface-container-high" href="#how-it-works">How it Works</a>
+          <a className="hidden sm:inline text-on-surface-variant hover:text-primary-fixed-dim transition-colors hover:bg-surface-container-high hover:text-primary-container" href="#telemetry">Telemetry</a>
+          
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 border-2 border-surface-container-highest hover:border-primary-container hover:text-primary-container transition-colors"
+            aria-label="Toggle theme"
+          >
+            {darkMode ? <Sun className="h-5 w-5 text-gold-warning animate-pulse" /> : <Moon className="h-5 w-5 text-primary-container" />}
+          </button>
+
+          <button className="arcade-btn px-6 py-2 font-label-md text-on-primary font-bold ml-2">LOGIN</button>
+        </div>
+      </nav>
+
+      {/* Main Content Area */}
+      <main className="flex-grow pt-28 pb-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full relative z-10">
         {children}
       </main>
 
-      <footer className="border-t border-gray-200 dark:border-cyber-800 py-8 bg-white dark:bg-cyber-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-gray-500 dark:text-gray-400 text-sm">
-            &copy; {new Date().getFullYear()} PhishGuard AI. All rights reserved.
+      {/* Footer */}
+      <footer className="w-full py-gutter px-6 md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-6 bg-surface-container-lowest border-t-4 border-surface-container-highest bg-[rgba(0,245,255,0.03)] relative z-10">
+        <div className="flex items-center gap-4">
+          <div className="w-16 h-16 relative flex items-center justify-center border-2 border-surface-container-highest bg-surface-container-lowest">
+            <ThreeLock />
           </div>
-          <div className="flex space-x-4 text-sm text-gray-500 dark:text-gray-400">
-            <span className="flex items-center"><Shield className="h-4 w-4 mr-1"/> Powered by AI Detection Engine</span>
+          <div className="font-label-md text-label-md text-matrix-green">
+            © {new Date().getFullYear()} PHISHGUARD AI - SYSTEM_STATUS: OPERATIONAL
           </div>
+        </div>
+        <div className="flex flex-wrap gap-6 font-label-sm text-label-sm justify-center">
+          <a className="text-on-surface-variant hover:text-matrix-green hover:drop-shadow-[0_0_4px_rgba(0,255,136,0.5)] transition-all cursor-pointer" href="#telemetry">Threat Database</a>
+          <a className="text-on-surface-variant hover:text-matrix-green hover:drop-shadow-[0_0_4px_rgba(0,255,136,0.5)] transition-all cursor-pointer" href="#docs">API Docs</a>
+          <a className="text-on-surface-variant hover:text-matrix-green hover:drop-shadow-[0_0_4px_rgba(0,255,136,0.5)] transition-all cursor-pointer" href="#privacy">Privacy Protocol</a>
+          <a className="text-on-surface-variant hover:text-matrix-green hover:drop-shadow-[0_0_4px_rgba(0,255,136,0.5)] transition-all cursor-pointer" href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>
       </footer>
     </div>
@@ -47,3 +60,4 @@ const Layout = ({ children, darkMode, toggleTheme }) => {
 };
 
 export default Layout;
+

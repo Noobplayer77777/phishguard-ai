@@ -8,20 +8,95 @@ export default {
   theme: {
     extend: {
       colors: {
+        "surface-tint": "#00dce5",
+        "surface-container-highest": "#2f3446",
+        "error-container": "#93000a",
+        "primary-fixed-dim": "#00dce5",
+        "on-secondary-fixed": "#23005c",
+        "on-primary-fixed": "#002021",
+        "tertiary-fixed": "#ffe16c",
+        "on-primary-fixed-variant": "#004f53",
+        "matrix-green": "#00FF88",
+        "scanline-overlay": "rgba(0, 245, 255, 0.03)",
+        "on-secondary": "#3c0091",
+        "tertiary-fixed-dim": "#e7c427",
+        "on-error-container": "#ffdad6",
+        "surface-dim": "#0e1323",
+        "cool-white": "#F8FAFC",
+        "outline-variant": "#3a494a",
+        "on-tertiary": "#3a3000",
+        "surface-bright": "#34394a",
+        "surface-container-lowest": "#080d1d",
+        "on-background": "#dee1f9",
+        "background": "#0e1323",
+        "inverse-on-surface": "#2b3041",
+        "surface-container": "#1a1f30",
+        "inverse-primary": "#00696e",
+        "on-surface-variant": "#b9caca",
+        "gold-warning": "#FFD000",
+        "surface": "#121A2B",
+        "glitch-red": "#FF4D4D",
+        "on-surface": "#dee1f9",
+        "primary-container": "#00f5ff",
+        "on-primary": "#003739",
+        "surface-container-low": "#161b2b",
+        "on-tertiary-fixed-variant": "#544600",
+        "secondary": "#d0bcff",
+        "primary": "#e9feff",
+        "tertiary-container": "#ffdb3f",
+        "on-secondary-container": "#c4abff",
+        "tertiary": "#fff9f0",
+        "on-tertiary-fixed": "#221b00",
+        "primary-fixed": "#63f7ff",
+        "surface-variant": "#2f3446",
+        "on-secondary-fixed-variant": "#5516be",
+        "on-tertiary-container": "#736000",
+        "error": "#ffb4ab",
+        "secondary-container": "#571bc1",
+        "secondary-fixed": "#e9ddff",
+        "surface-container-high": "#25293a",
+        "on-error": "#690005",
+        "secondary-fixed-dim": "#d0bcff",
+        "inverse-surface": "#dee1f9",
+        "outline": "#849495",
+        "on-primary-container": "#006c71",
         cyber: {
-          900: '#0a0f1c', // Deep dark blue background
-          800: '#111827', // Card background
-          700: '#1f2937', // Hover state
-          600: '#374151', // Borders
-          green: '#10b981', // Safe
-          red: '#ef4444', // Phishing
-          yellow: '#f59e0b', // Suspicious
-          blue: '#3b82f6', // Accents
-          purple: '#8b5cf6', // Accents
+          900: '#0e1323',
+          800: '#121A2B',
+          700: '#1a1f30',
+          600: '#25293a',
+          green: '#00FF88',
+          red: '#FF4D4D',
+          yellow: '#FFD000',
+          blue: '#00f5ff',
+          purple: '#d0bcff',
         }
       },
       fontFamily: {
+        "label-md": ["JetBrains Mono", "monospace"],
+        "headline-md": ["Space Grotesk", "sans-serif"],
+        "body-md": ["JetBrains Mono", "monospace"],
+        "headline-lg": ["Space Grotesk", "sans-serif"],
+        "body-lg": ["JetBrains Mono", "monospace"],
+        "headline-xl": ["Space Grotesk", "sans-serif"],
+        "label-sm": ["JetBrains Mono", "monospace"],
         sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+      fontSize: {
+        "label-md": ["14px", { "lineHeight": "1.4", "fontWeight": "500" }],
+        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+        "headline-xl": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+        "label-sm": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }]
+      },
+      spacing: {
+        "margin-desktop": "40px",
+        "pixel-unit": "4px",
+        "gutter": "24px",
+        "container-max": "1280px",
+        "margin-mobile": "16px"
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',

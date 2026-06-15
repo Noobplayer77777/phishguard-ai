@@ -43,10 +43,11 @@ const Dashboard = () => {
       )}
       
       <div className="mt-16">
-        <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-8 flex items-center">
-          Platform Analytics
-          <span className="ml-3 text-xs font-medium px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
-            Live Global Data
+        <h2 className="font-headline-lg text-headline-lg text-on-surface mb-8 flex flex-wrap items-center gap-3 select-none">
+          <span className="material-symbols-outlined text-primary-container text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>analytics</span>
+          PLATFORM ANALYTICS
+          <span className="border-2 border-primary-container bg-primary-container/10 px-2 py-0.5 text-xs font-bold text-primary-container uppercase font-mono tracking-widest">
+            LIVE GLOBAL DATA
           </span>
         </h2>
         
@@ -72,3 +73,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

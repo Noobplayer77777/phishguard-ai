@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import { X, Upload, FileText, Loader2, ShieldCheck, ShieldAlert, AlertTriangle } from 'lucide-react';
 import { useBatchAnalyze } from '../hooks/useBatchAnalyze';
 
 const BatchUploadModal = ({ isOpen, onClose, onUploadComplete }) => {
@@ -17,7 +16,7 @@ const BatchUploadModal = ({ isOpen, onClose, onUploadComplete }) => {
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-    if (selectedFile && selectedFile.type === 'text/csv') {
+    if (selectedFile && (selectedFile.type === 'text/csv' || selectedFile.name.endsWith('.csv'))) {
       setFile(selectedFile);
       reset();
     } else if (selectedFile) {
@@ -32,7 +31,7 @@ const BatchUploadModal = ({ isOpen, onClose, onUploadComplete }) => {
   const handleDrop = (e) => {
     e.preventDefault();
     const droppedFile = e.dataTransfer.files[0];
-    if (droppedFile && droppedFile.type === 'text/csv') {
+    if (droppedFile && (droppedFile.type === 'text/csv' || droppedFile.name.endsWith('.csv'))) {
       setFile(droppedFile);
       reset();
     } else if (droppedFile) {
@@ -52,25 +51,28 @@ const BatchUploadModal = ({ isOpen, onClose, onUploadComplete }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in">
-      <div className="bg-white dark:bg-cyber-900 border border-gray-200 dark:border-cyber-700 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm animate-in fade-in">
+      <div className="bg-surface pixel-border w-full max-w-2xl flex flex-col max-h-[90vh] relative z-[101]">
         
-        <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-cyber-800">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center">
-            <Upload className="mr-2 h-5 w-5 text-cyber-blue" /> Bulk CSV Analysis
+        {/* Header */}
+        <div className="flex justify-between items-center p-6 border-b-2 border-surface-container-highest">
+          <h2 className="text-xl font-bold text-primary-container flex items-center gap-2 select-none">
+            <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>upload_file</span>
+            BULK CSV ANALYSIS
           </h2>
-          <button onClick={handleClose} className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
-            <X className="h-6 w-6" />
+          <button onClick={handleClose} className="text-on-surface-variant hover:text-primary-container transition-colors flex items-center">
+            <span className="material-symbols-outlined text-2xl select-none">close</span>
           </button>
         </div>
 
-        <div className="p-6 overflow-y-auto flex-grow">
+        {/* Content */}
+        <div className="p-6 overflow-y-auto flex-grow bg-surface-container-lowest/30">
           {!result && (
             <div 
               onDragOver={handleDragOver}
               onDrop={handleDrop}
-              className={`border-2 border-dashed rounded-xl p-10 text-center transition-colors
-                ${file ? 'border-cyber-blue bg-blue-50 dark:bg-blue-900/10' : 'border-gray-300 dark:border-cyber-700 hover:border-cyber-blue dark:hover:border-cyber-blue'}`}
+              className={`border-2 border-dashed p-10 text-center transition-colors select-none
+                ${file ? 'border-primary-container bg-primary-container/5' : 'border-surface-container-highest hover:border-primary-container'}`}
             >
               <input 
                 type="file" 
@@ -81,81 +83,86 @@ const BatchUploadModal = ({ isOpen, onClose, onUploadComplete }) => {
               />
               
               <div className="flex flex-col items-center justify-center space-y-4">
-                <div className="p-4 bg-gray-100 dark:bg-cyber-800 rounded-full">
-                  <FileText className="h-10 w-10 text-cyber-blue" />
+                <div className="p-4 bg-surface-container-high border-2 border-surface-container-highest">
+                  <span className="material-symbols-outlined text-4xl text-primary-container">file_open</span>
                 </div>
                 
                 {file ? (
                   <div>
-                    <p className="text-lg font-medium text-gray-900 dark:text-white">{file.name}</p>
-                    <p className="text-sm text-gray-500 mt-1">Ready to analyze</p>
+                    <p className="text-lg font-bold text-on-surface font-mono">{file.name}</p>
+                    <p className="text-xs text-matrix-green mt-1 font-mono uppercase tracking-widest">[ READY FOR TRANSMISSION ]</p>
                   </div>
                 ) : (
                   <div>
-                    <p className="text-lg font-medium text-gray-900 dark:text-white">Drag & drop your CSV file here</p>
-                    <p className="text-sm text-gray-500 mt-1 mb-4">or click below to browse</p>
+                    <p className="text-lg font-bold text-on-surface">DRAG & DROP CSV FILE HERE</p>
+                    <p className="text-xs text-on-surface-variant mt-1 mb-4 select-none">OR CLICK BELOW TO SEARCH FILESYSTEM</p>
                     <button 
                       onClick={() => fileInputRef.current?.click()}
-                      className="px-4 py-2 bg-gray-200 dark:bg-cyber-800 hover:bg-gray-300 dark:hover:bg-cyber-700 text-gray-800 dark:text-white font-medium rounded-lg transition-colors"
+                      className="arcade-btn-secondary px-6 py-2 font-label-sm text-xs"
                     >
-                      Browse Files
+                      BROWSE FILES
                     </button>
                   </div>
                 )}
-                <p className="text-xs text-gray-400 max-w-sm mt-4">
-                  Note: The first column should contain the URLs. Maximum 100 URLs per batch.
+                <p className="text-[10px] text-on-surface-variant max-w-sm mt-4 select-none italic">
+                  Note: The first column must contain the URLs. Maximum limit of 100 URLs per scan.
                 </p>
               </div>
             </div>
           )}
 
           {error && (
-            <div className="mt-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400 text-sm">
-              <AlertTriangle className="h-4 w-4 inline mr-2" /> {error}
+            <div className="mt-4 p-4 bg-glitch-red/10 border-2 border-glitch-red text-glitch-red font-mono text-xs">
+              &gt; ERROR: {error}
             </div>
           )}
 
           {result && (
-            <div className="animate-in fade-in slide-in-from-bottom-4">
+            <div className="animate-in fade-in duration-300">
               <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800/50 p-4 rounded-xl text-center">
-                  <ShieldCheck className="h-8 w-8 mx-auto text-green-500 mb-2" />
-                  <div className="text-2xl font-bold text-green-600 dark:text-green-400">{result.counts.Safe}</div>
-                  <div className="text-xs font-medium uppercase text-green-700 dark:text-green-500">Safe</div>
+                <div className="bg-matrix-green/5 border-2 border-matrix-green p-4 text-center">
+                  <span className="material-symbols-outlined text-3xl text-matrix-green mb-1 select-none">verified</span>
+                  <div className="text-2xl font-bold text-matrix-green font-mono">{result.counts.Safe}</div>
+                  <div className="text-[10px] font-bold uppercase text-matrix-green select-none">Safe</div>
                 </div>
-                <div className="bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-800/50 p-4 rounded-xl text-center">
-                  <AlertTriangle className="h-8 w-8 mx-auto text-yellow-500 mb-2" />
-                  <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{result.counts.Suspicious}</div>
-                  <div className="text-xs font-medium uppercase text-yellow-700 dark:text-yellow-500">Suspicious</div>
+                <div className="bg-gold-warning/5 border-2 border-gold-warning p-4 text-center">
+                  <span className="material-symbols-outlined text-3xl text-gold-warning mb-1 select-none">warning</span>
+                  <div className="text-2xl font-bold text-gold-warning font-mono">{result.counts.Suspicious}</div>
+                  <div className="text-[10px] font-bold uppercase text-gold-warning select-none">Alert</div>
                 </div>
-                <div className="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800/50 p-4 rounded-xl text-center">
-                  <ShieldAlert className="h-8 w-8 mx-auto text-red-500 mb-2" />
-                  <div className="text-2xl font-bold text-red-600 dark:text-red-400">{result.counts.Phishing}</div>
-                  <div className="text-xs font-medium uppercase text-red-700 dark:text-red-500">Phishing</div>
+                <div className="bg-glitch-red/5 border-2 border-glitch-red p-4 text-center">
+                  <span className="material-symbols-outlined text-3xl text-glitch-red mb-1 select-none">gpp_bad</span>
+                  <div className="text-2xl font-bold text-glitch-red font-mono">{result.counts.Phishing}</div>
+                  <div className="text-[10px] font-bold uppercase text-glitch-red select-none">Threat</div>
                 </div>
               </div>
 
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Batch Results ({result.total_processed} processed)</h3>
-              <div className="border border-gray-200 dark:border-cyber-700 rounded-xl overflow-hidden">
+              <h3 className="font-bold text-on-surface mb-3 flex justify-between items-center select-none font-label-sm">
+                <span>BATCH TELEMETRY RESULTS</span>
+                <span className="text-xs text-primary-container font-mono">{result.total_processed} PROCESSED</span>
+              </h3>
+              <div className="border-2 border-surface-container-highest">
                 <div className="max-h-60 overflow-y-auto">
-                  <table className="min-w-full divide-y divide-gray-200 dark:divide-cyber-700">
-                    <thead className="bg-gray-50 dark:bg-cyber-800 sticky top-0">
+                  <table className="min-w-full divide-y-2 divide-surface-container-highest">
+                    <thead className="bg-surface-container-lowest sticky top-0 font-label-sm text-label-sm text-on-surface-variant">
                       <tr>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400">URL</th>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 w-24">Status</th>
+                        <th className="px-4 py-2 text-left uppercase">URL</th>
+                        <th className="px-4 py-2 text-left uppercase w-28">Verdict</th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white dark:bg-cyber-900 divide-y divide-gray-100 dark:divide-cyber-800">
+                    <tbody className="divide-y divide-surface-container-highest font-mono text-sm">
                       {result.results.map((r, i) => (
-                        <tr key={i}>
-                          <td className="px-4 py-2 text-sm text-gray-800 dark:text-gray-200 truncate max-w-[250px] font-mono">{r.url}</td>
-                          <td className="px-4 py-2 text-sm">
-                            <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium 
-                              ${r.status === 'Safe' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 
-                                r.status === 'Phishing' ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' : 
-                                r.status === 'Error' ? 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300' :
-                                'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'}`}>
-                              {r.status}
+                        <tr key={i} className="hover:bg-surface-container-low transition-colors">
+                          <td className="px-4 py-2 text-on-surface truncate max-w-[250px] font-mono">{r.url}</td>
+                          <td className="px-4 py-2">
+                            <span className={`inline-block px-2 py-0.5 border text-xs font-bold uppercase select-none
+                              ${r.status === 'Safe' ? 'border-matrix-green text-matrix-green' : 
+                                r.status === 'Phishing' ? 'border-glitch-red text-glitch-red' : 
+                                r.status === 'Error' ? 'border-outline text-outline' :
+                                'border-gold-warning text-gold-warning'}`}>
+                              {r.status === 'Safe' ? 'SAFE' : 
+                               r.status === 'Phishing' ? 'THREAT' : 
+                               r.status === 'Error' ? 'ERROR' : 'ALERT'}
                             </span>
                           </td>
                         </tr>
@@ -168,29 +175,40 @@ const BatchUploadModal = ({ isOpen, onClose, onUploadComplete }) => {
           )}
         </div>
 
-        <div className="p-4 border-t border-gray-200 dark:border-cyber-800 bg-gray-50 dark:bg-cyber-800/50 flex justify-end space-x-3">
+        {/* Footer */}
+        <div className="p-4 border-t-2 border-surface-container-highest bg-surface-container-lowest/80 flex justify-end gap-3">
           {result ? (
             <button
               onClick={handleClose}
-              className="px-6 py-2 bg-cyber-blue hover:bg-blue-600 text-white font-medium rounded-lg transition-colors"
+              className="arcade-btn px-6 py-2 font-label-sm text-xs"
             >
-              Done
+              DONE
             </button>
           ) : (
             <>
               <button
                 onClick={handleClose}
                 disabled={loading}
-                className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-cyber-700 font-medium rounded-lg transition-colors"
+                className="arcade-btn-secondary px-5 py-2 font-label-sm text-xs"
               >
-                Cancel
+                CANCEL
               </button>
               <button
                 onClick={handleUpload}
                 disabled={!file || loading}
-                className={`flex items-center px-6 py-2 bg-cyber-blue hover:bg-blue-600 text-white font-medium rounded-lg transition-colors ${(loading || !file) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className="arcade-btn px-6 py-2 font-label-sm text-xs flex items-center justify-center gap-2"
               >
-                {loading ? <><Loader2 className="animate-spin h-4 w-4 mr-2" /> Processing...</> : 'Analyze Batch'}
+                {loading ? (
+                  <>
+                    <span className="material-symbols-outlined text-sm animate-spin">sync</span>
+                    PROCESSING...
+                  </>
+                ) : (
+                  <>
+                    <span className="material-symbols-outlined text-sm">send</span>
+                    ANALYZE BATCH
+                  </>
+                )}
               </button>
             </>
           )}
@@ -201,3 +219,4 @@ const BatchUploadModal = ({ isOpen, onClose, onUploadComplete }) => {
 };
 
 export default BatchUploadModal;
+

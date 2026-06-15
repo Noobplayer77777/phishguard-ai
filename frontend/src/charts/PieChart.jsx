@@ -6,31 +6,28 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PieChart = ({ categories }) => {
   if (!categories || Object.keys(categories).length === 0) {
-    return <div className="h-64 flex items-center justify-center text-gray-500">No data available yet</div>;
+    return (
+      <div className="bg-surface pixel-border p-6 h-[350px] flex flex-col justify-center items-center select-none font-label-md">
+        &gt; NO CATEGORY TELEMETRY DETECTED.
+      </div>
+    );
   }
 
   const data = {
-    labels: Object.keys(categories),
+    labels: Object.keys(categories).map(k => k.toUpperCase()),
     datasets: [
       {
         data: Object.values(categories),
         backgroundColor: [
-          'rgba(239, 68, 68, 0.8)',   // Red
-          'rgba(245, 158, 11, 0.8)',  // Yellow
-          'rgba(59, 130, 246, 0.8)',  // Blue
-          'rgba(139, 92, 246, 0.8)',  // Purple
-          'rgba(16, 185, 129, 0.8)',  // Green
-          'rgba(236, 72, 153, 0.8)',  // Pink
+          '#FF4D4D', // Glitch Red
+          '#FFD000', // Gold
+          '#00f5ff', // Cyber Cyan
+          '#d0bcff', // Neon Purple
+          '#00FF88', // Matrix Green
+          '#e9feff', // Cool White
         ],
-        borderColor: [
-          'rgba(239, 68, 68, 1)',
-          'rgba(245, 158, 11, 1)',
-          'rgba(59, 130, 246, 1)',
-          'rgba(139, 92, 246, 1)',
-          'rgba(16, 185, 129, 1)',
-          'rgba(236, 72, 153, 1)',
-        ],
-        borderWidth: 1,
+        borderColor: '#121A2B',
+        borderWidth: 2,
       },
     ],
   };
@@ -42,25 +39,32 @@ const PieChart = ({ categories }) => {
       legend: {
         position: 'right',
         labels: {
-          color: document.documentElement.classList.contains('dark') ? '#9ca3af' : '#4b5563',
-          font: { family: 'Inter', size: 12 }
+          color: '#dee1f9',
+          font: { family: 'JetBrains Mono', size: 11 }
         }
       },
       tooltip: {
-        backgroundColor: 'rgba(17, 24, 39, 0.9)',
-        titleColor: '#fff',
-        bodyColor: '#fff',
+        backgroundColor: '#080d1d',
+        titleColor: '#00f5ff',
+        bodyColor: '#dee1f9',
+        borderColor: '#2f3446',
+        borderWidth: 1,
         padding: 10,
-        cornerRadius: 8,
+        cornerRadius: 0,
+        titleFont: { family: 'JetBrains Mono', weight: 'bold' },
+        bodyFont: { family: 'JetBrains Mono' }
       }
     },
     cutout: '65%',
   };
 
   return (
-    <div className="glass-card p-6 h-[350px] flex flex-col">
-      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Phishing Categories</h3>
-      <div className="flex-grow relative">
+    <div className="bg-surface pixel-border p-6 h-[350px] flex flex-col">
+      <h3 className="text-lg font-bold text-primary-container mb-4 select-none flex items-center gap-2">
+        <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>pie_chart</span>
+        PHISHING CATEGORIES
+      </h3>
+      <div className="flex-grow relative h-60">
         <Doughnut data={data} options={options} />
       </div>
     </div>
@@ -68,3 +72,4 @@ const PieChart = ({ categories }) => {
 };
 
 export default PieChart;
+
