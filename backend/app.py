@@ -45,8 +45,19 @@ def create_app(test_config=None):
         storage_uri="memory://"
     )
 
-    # Initialize Database
-    init_db(app.config['DATABASE'])
+    # Initialize Database with robust fallback
+    try:
+        init_db(app.config['DATABASE'])
+    except Exception as e:
+        app.logger.error(f"Database initialization failed for {app.config['DATABASE']}: {e}")
+        fallback_db = '/tmp/phishguard_fallback.sqlite'
+        app.logger.info(f"Attempting fallback to SQLite: {fallback_db}")
+        app.config['DATABASE'] = fallback_db
+        try:
+            init_db(fallback_db)
+        except Exception as fe:
+            app.logger.error(f"Fallback database initialization failed: {fe}")
+
 
     # Register Blueprints
     app.register_blueprint(analyze_bp, url_prefix='/api')
