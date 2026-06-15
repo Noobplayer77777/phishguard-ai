@@ -81,8 +81,11 @@ def create_app(test_config=None):
         return jsonify({'error': 'Internal Server Error', 'message': 'An unexpected error occurred'}), 500
 
     @app.route('/')
+    @app.route('/api')
+    @app.route('/api/')
     def health_check():
         return jsonify({'status': 'online', 'service': 'PhishGuard AI Backend API'})
+
 
     return app
 
